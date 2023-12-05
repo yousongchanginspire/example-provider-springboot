@@ -32,7 +32,7 @@ class ProductController {
     return repository.save(newProduct);
   }
 
-  @GetMapping({ "/product/{id}" })
+  @GetMapping({ "/product1/{id}" })
   Product one(@PathVariable Long id) {
 
     return repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
