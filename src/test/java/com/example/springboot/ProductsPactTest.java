@@ -29,7 +29,7 @@ class ProductsPactTest {
     context.verifyInteraction();
   }
   
-  @State("a product with ID 11 exists")
+  @State("a product with ID 10 exists")
   public void setupProductX010000021() throws IOException {
     System.out.println("a product with ID 10 exists");
   }
