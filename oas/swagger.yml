@@ -27,7 +27,7 @@ paths:
         404:
           description: Product not found
           content: {}
-  /product/{id}:
+  /product1/{id}:
     get:
       summary: Find product by ID
       description: Returns a single product
