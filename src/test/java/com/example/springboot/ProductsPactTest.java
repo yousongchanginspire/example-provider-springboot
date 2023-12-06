@@ -5,8 +5,7 @@ import au.com.dius.pact.provider.junitsupport.loader.*;
 import au.com.dius.pact.provider.junit5.HttpTestTarget;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
-
-
+import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +27,11 @@ class ProductsPactTest {
   @ExtendWith(PactVerificationInvocationContextProvider.class)
   public void pactVerificationTestTemplate(PactVerificationContext context) {
     context.verifyInteraction();
+  }
+  
+  @State("a product with ID 10 exists")
+  public void setupProductX010000021() throws IOException {
+    System.out.println("a product with ID 10 exists");
   }
 
 }
