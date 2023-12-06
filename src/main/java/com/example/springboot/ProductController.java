@@ -17,13 +17,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RequestMapping(value = "/", produces = "application/json; charset=utf-8")
 class ProductController implements DefaultApi {
 
-  @GetMapping("/products")
   public ResponseEntity<List<Product>> getAllProducts() {
     List<Product> list = new ArrayList<Product>();   
     return new ResponseEntity<>(list, HttpStatus.OK);
   }
 
-  @GetMapping({ "/product/{id}" })
   public ResponseEntity<Product> getProductByID(@PathVariable String id) {
     Product product = new Product().id("1").name("name").type("type");
     return new ResponseEntity<Product>(product, HttpStatus.OK);
