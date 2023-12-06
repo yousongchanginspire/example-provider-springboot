@@ -25,7 +25,7 @@ class ProductController implements DefaultApi {
 
   @GetMapping({ "/product/{id}" })
   public ResponseEntity<Product> getProductByID(@PathVariable String id) {
-    Product product = new Product();
+    Product product = new Product().id("1").name("name").type("type");
     return new ResponseEntity<Product>(product, HttpStatus.OK);
   }
 }
