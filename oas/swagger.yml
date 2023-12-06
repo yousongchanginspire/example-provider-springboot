@@ -3,6 +3,9 @@ info:
   title: Product API
   description: PactFlow Product API demo
   version: 1.0.0
+tags:
+  - name: product-controller
+    description: Product Controller
 paths:
   /products:
     get:
@@ -24,7 +27,7 @@ paths:
         404:
           description: Product not found
           content: {}
-  /product1/{id}:
+  /product/{id}:
     get:
       summary: Find product by ID
       description: Returns a single product
