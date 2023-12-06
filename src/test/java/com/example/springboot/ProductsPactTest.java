@@ -34,4 +34,8 @@ class ProductsPactTest {
     System.out.println("a product with ID 10 exists");
   }
 
+  @State("products exist")
+  public void setupProducts() throws IOException {
+    System.out.println("a product with ID 11 does not exist");
+  }
 }
