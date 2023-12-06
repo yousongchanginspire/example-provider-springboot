@@ -38,7 +38,7 @@ paths:
         description: ID of product to get
         required: true
         schema:
-          type: string
+          type: long
       responses:
         200:
           description: successful operation
