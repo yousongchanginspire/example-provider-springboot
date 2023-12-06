@@ -20,7 +20,7 @@ class ProductController implements DefaultApi {
     return new ResponseEntity<>(list, HttpStatus.OK);
   }
 
-  public ResponseEntity<Product> getProductByID(@PathVariable Long id) {
+  public ResponseEntity<Product> getProductByID(@PathVariable String id) {
     Product product = new Product().id("1").name("name").type("type");
     return new ResponseEntity<Product>(product, HttpStatus.OK);
   }
