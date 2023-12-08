@@ -65,5 +65,3 @@ components:
           type: string
         version:
           type: string
-        country:
-          type: string
