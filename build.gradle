@@ -53,19 +53,19 @@ openApiGenerate {
             modelDocs      : "false",
             models         : "",
             apis           : "",
-            supportingFiles: "false"
+            supportingFiles: "ApiUtil.java"
     ]
 
     configOptions = [
             performBeanValidation         : "true",
             useTags                       : "true",
             basePackage                   : "com.example.sprintboot",
+            interfaceOnly                 : "false",
             configPackage                 : "com.example.sprintboot",
             title                         : rootProject.name,
             java8                         : "false",
             dateLibrary                   : "java11",
             artifactId                    : rootProject.name,
-            interfaceOnly                 : "true",
             additionalModelTypeAnnotations: "@lombok.Builder;" +
                     "@lombok.NoArgsConstructor;" +
                     "@lombok.AllArgsConstructor;" +
