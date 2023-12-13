@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 {{/isJava8or11}}
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
 {{^isJava8or11}}
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -69,6 +71,8 @@ import java.util.concurrent.Callable;
 
 @RestController
 {{#operations}}
+@CrossOrigin(origins = { "*" })
+@RequestMapping(value = "/", produces = "application/json; charset=utf-8")
 public class {{classname}}Controller implements {{classname}} {
 
 {{#isDelegate}}
@@ -125,8 +129,6 @@ public class {{classname}}Controller implements {{classname}} {
             try {
                 {{>returnTypes}} returnEntity = new ObjectMapper().readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
                 return new ResponseEntity<{{>returnTypes}}>(returnEntity, HttpStatus.OK);
-
- //               return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type {{{contentType}}}", e);
                 return new ResponseEntity<{{>returnTypes}}>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -146,7 +148,6 @@ public class {{classname}}Controller implements {{classname}} {
                     try {
                         {{>returnTypes}} returnEntity = new ObjectMapper().readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
                         return new ResponseEntity<{{>returnTypes}}>(returnEntity, HttpStatus.OK);
-                   //     return new ResponseEntity<{{>returnTypes}}>(objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", {{>exampleReturnTypes}}.class), HttpStatus.NOT_IMPLEMENTED);
                     } catch (IOException e) {
                         log.error("Couldn't serialize response for content type {{{contentType}}}", e);
                         return new ResponseEntity<{{>returnTypes}}>(HttpStatus.INTERNAL_SERVER_ERROR);
