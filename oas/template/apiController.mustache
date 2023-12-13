@@ -95,6 +95,9 @@ public class {{classname}}Controller implements {{classname}} {
     private static final Logger log = LoggerFactory.getLogger({{classname}}Controller.class);
 
     {{/isJava8or11}}
+    private final ObjectMapper objectMapper;
+
+    private final HttpServletRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
     public {{classname}}Controller(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -122,7 +125,7 @@ public class {{classname}}Controller implements {{classname}} {
         {{^async}}
         {{#examples}}
             try {
-                {{>returnTypes}} returnEntity = new ObjectMapper().readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
+                {{>returnTypes}} returnEntity = objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
                 return new ResponseEntity<{{>returnTypes}}>(returnEntity, HttpStatus.OK);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type {{{contentType}}}", e);
@@ -138,7 +141,7 @@ public class {{classname}}Controller implements {{classname}} {
                 {{#examples}}
                 if (accept != null && accept.contains("{{{contentType}}}")) {
                     try {
-                        {{>returnTypes}} returnEntity = new ObjectMapper().readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
+                        {{>returnTypes}} returnEntity = objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
                         return new ResponseEntity<{{>returnTypes}}>(returnEntity, HttpStatus.OK);
                     } catch (IOException e) {
                         log.error("Couldn't serialize response for content type {{{contentType}}}", e);
