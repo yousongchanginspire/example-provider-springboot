@@ -21,6 +21,7 @@ configurations {
   }
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -45,6 +46,7 @@ openApiGenerate {
 
     inputSpec = "$projectDir/oas/swagger.yml".toString()
     outputDir = "$projectDir".toString()
+    templateDir = "$projectDir/oas/template"
 
     apiPackage = "com.example.springboot"
     modelPackage = "com.example.springboot"
