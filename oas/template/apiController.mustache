@@ -95,9 +95,6 @@ public class {{classname}}Controller implements {{classname}} {
     private static final Logger log = LoggerFactory.getLogger({{classname}}Controller.class);
 
     {{/isJava8or11}}
-    private final ObjectMapper objectMapper;
-
-    private final HttpServletRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired
     public {{classname}}Controller(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -123,9 +120,7 @@ public class {{classname}}Controller implements {{classname}} {
     public {{#async}}Callable<{{/async}}ResponseEntity<{{>returnTypes}}>{{#async}}>{{/async}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
         {{^isDelegate}}
         {{^async}}
-        String accept = request.getHeader("Accept");
         {{#examples}}
-        if (accept != null && accept.contains("{{{contentType}}}")) {
             try {
                 {{>returnTypes}} returnEntity = new ObjectMapper().readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
                 return new ResponseEntity<{{>returnTypes}}>(returnEntity, HttpStatus.OK);
@@ -133,10 +128,7 @@ public class {{classname}}Controller implements {{classname}} {
                 log.error("Couldn't serialize response for content type {{{contentType}}}", e);
                 return new ResponseEntity<{{>returnTypes}}>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        }
-
         {{/examples}}
-        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.NOT_IMPLEMENTED);
         {{/async}}
         {{#async}}
         return new Callable<ResponseEntity<{{>returnTypes}}>>() {
