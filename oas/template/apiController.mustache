@@ -8,46 +8,32 @@ package {{package}};
 {{^isDelegate}}
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import javax.servlet.http.HttpServletRequest;
 {{/isDelegate}}
 {{^isJava8or11}}
-import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 {{/isJava8or11}}
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 {{^isJava8or11}}
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import io.swagger.v3.oas.annotations.media.*;
 import io.swagger.v3.oas.annotations.*;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 {{#useBeanValidation}}
 {{#jakarta}}
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 {{/jakarta}}
 {{^jakarta}}
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 {{/jakarta}}
 {{/useBeanValidation}}
 {{/isJava8or11}}
 {{^isDelegate}}
-{{#jakarta}}
-import jakarta.servlet.http.HttpServletRequest;
-{{/jakarta}}
-{{^jakarta}}
-import javax.servlet.http.HttpServletRequest;
-{{/jakarta}}
+
+
     {{#isJava8or11}}
 import java.util.Optional;
     {{/isJava8or11}}
@@ -97,12 +83,9 @@ public class {{classname}}Controller implements {{classname}} {
     {{/isJava8or11}}
     private final ObjectMapper objectMapper;
 
-    private final HttpServletRequest request;
-
     @org.springframework.beans.factory.annotation.Autowired
     public {{classname}}Controller(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
-        this.request = request;
     }
     {{#isJava8or11}}
 
@@ -125,19 +108,16 @@ public class {{classname}}Controller implements {{classname}} {
         {{^async}}
         {{#examples}}
             try {
-                Boolean array = false;
-                {{#isArray}}array = true; {{/isArray}}
-                {{>returnTypes}} returnEntity;
-                if (array) {
-                   returnEntity = objectMapper.readValue("[{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}]", new TypeReference<>(){});
-		}
-		else {
-                   returnEntity = objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
-                }
+                {{#isArray}}
+                {{>returnTypes}} returnEntity = objectMapper.readValue("[{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}]", new TypeReference<>(){});
+		{{/isArray}}
+		{{^isArray}}
+                {{>returnTypes}} returnEntity = objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
+                {{/isArray}}
                 return new ResponseEntity<{{>returnTypes}}>(returnEntity, HttpStatus.OK);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type {{{contentType}}}", e);
-                return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+                return new ResponseEntity<{{>returnTypes}}>(HttpStatus.NOT_IMPLEMENTED);
             }
         {{/examples}}
         {{/async}}
@@ -153,7 +133,7 @@ public class {{classname}}Controller implements {{classname}} {
                         return new ResponseEntity<{{>returnTypes}}>(returnEntity, HttpStatus.OK);
                     } catch (IOException e) {
                         log.error("Couldn't serialize response for content type {{{contentType}}}", e);
-                        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.OK);
+                        return new ResponseEntity<{{>returnTypes}}>(HttpStatus.NOT_IMPLEMENTED);
                     }
                 }
 
