@@ -125,7 +125,15 @@ public class {{classname}}Controller implements {{classname}} {
         {{^async}}
         {{#examples}}
             try {
-                {{>returnTypes}} returnEntity = objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
+                Boolean array = false;
+                {{#isArray}}array = true; {{/isArray}}
+                {{>returnTypes}} returnEntity;
+                if (array) {
+                   returnEntity = objectMapper.readValue("[{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}]", new TypeReference<>(){});
+		}
+		else {
+                   returnEntity = objectMapper.readValue("{{#lambdaRemoveLineBreak}}{{#lambdaEscapeDoubleQuote}}{{{example}}}{{/lambdaEscapeDoubleQuote}}{{/lambdaRemoveLineBreak}}", new TypeReference<>(){});
+                }
                 return new ResponseEntity<{{>returnTypes}}>(returnEntity, HttpStatus.OK);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type {{{contentType}}}", e);
